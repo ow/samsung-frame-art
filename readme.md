@@ -14,7 +14,9 @@ You can use this script with a folder of thousands of images to have your Samsun
 - Create a folder of images you want to upload at `/images`
 - Run the script for the first time: `python3 art.py`
 - Accept the permissions request using your Samsung TV remote
-- Run the script again and enjoy your art!
+- Run the script again and enjoy your art! Anytime you want the image to change, run the script again.
+
+If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation!
 
 ### Need images?
 I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
@@ -26,3 +28,7 @@ I wanted to do this with the [Google Earth View images](https://earth.google.com
 - Needs to be manually run every time you want to upload/change photos. This works great if you can set a cron job to run at the frequency you want the photos changed. 
 - Don't blame me if your TV breaks, this was just a project for myself
 - I have no idea how many images is the maximum on these TVs. I've used this about 1000 times so far and my 2022 Samsung Frame still seems to accept images.
+
+### To-Do
+
+- This project does not do anything with the aspect ratio of images, so it only really handles landscape and does not fit them to the display. I'd like to figure out how to auto-resize or crop these before uploading.
