@@ -16,7 +16,7 @@ You can use this script with a folder of thousands of images to have your Samsun
 - Accept the permissions request using your Samsung TV remote
 - Run the script again and enjoy your art! Anytime you want the image to change, run the script again.
 
-If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! To do this, you just need to: 
+If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! I do this on a Mac Mini, so these are the steps I used for that: 
 
 - Create a Bash file like `art.sh` then put something like this in it:
 `cd /Users/your-username/samsung-frame-art && /Library/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/your-username/samsung-frame-art/art.sh`
@@ -37,3 +37,4 @@ I wanted to do this with the [Google Earth View images](https://earth.google.com
 ### To-Do
 
 - This project does not do anything with the aspect ratio of images. It only really handles landscape and does not fit them to the display; I'd like to figure out how to auto-resize or crop these before uploading.
+- It would be cool to build a website UI version of this to manage it locally
