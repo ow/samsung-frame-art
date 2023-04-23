@@ -37,8 +37,8 @@ if art_mode == True:
 	# If you are having trouble setting images, uncommenting this will output the current art
 	#logging.info(current_art)
 
-	# Get a list of JPG/PNG files in the folder
-	files = [f for f in os.listdir(folder_path) if f.endswith('.jpg') or f.endswith('.png')]
+	# Get a list of JPG/PNG files in the folder, and searches recursively if you want to use subdirectories
+	files = [os.path.join(root, f) for root, dirs, files in os.walk(folder_path) for f in files if f.endswith('.jpg') or f.endswith('.png')]
 
 	# Remove the filenames of images that have already been uploaded
 	files = list(set(files) - set([f['file'] for f in uploaded_files]))
@@ -53,7 +53,7 @@ if art_mode == True:
 			#file = '0x342fad2ec1f71e948ded12832727175ce05cc0faf5999fa6dfa6e0e156fb1c93.png'
 
 			# Read the contents of the file
-			with open(os.path.join(folder_path, file), 'rb') as f:
+			with open(file, 'rb') as f:
 					data = f.read()
 
 			# Upload the file to the TV and select it as the current art, or select it using the remote filename if it has already been uploaded
