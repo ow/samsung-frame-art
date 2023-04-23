@@ -31,4 +31,4 @@ I wanted to do this with the [Google Earth View images](https://earth.google.com
 
 ### To-Do
 
-- This project does not do anything with the aspect ratio of images, so it only really handles landscape and does not fit them to the display. I'd like to figure out how to auto-resize or crop these before uploading.
+- This project does not do anything with the aspect ratio of images. It only really handles landscape and does not fit them to the display; I'd like to figure out how to auto-resize or crop these before uploading.
