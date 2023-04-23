@@ -1,4 +1,5 @@
 # Samsung Frame Art Mode++
+![TV with some art on it ](https://i.imgur.com/BunHdwb.jpeg)
 
 I love the Samsung Frame TV—which is designed to look like art when it's off—but I got tired of paying a monthly fee for the official art. I also found uploading images to it manually to be tedious, especially when using a very large set of images, like those from Google's Earth View image library. 
 
