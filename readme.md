@@ -11,12 +11,17 @@ You can use this script with a folder of thousands of images to have your Samsun
 
 - Install the required [Python library](https://github.com/xchwarze/samsung-tv-ws-api) that accesses the Samsung TV API by running: `pip3 install "git+https://github.com/xchwarze/samsung-tv-ws-api.git#egg=samsungtvws[async,encrypted]"`
 - Set a static IP for your TV, then change `tv = SamsungTVWS('192.168.0.9')` in `art.py` to your own IP address
-- Create a folder of images you want to upload at `/images`
+- Create a folder of images you want to upload at `./images`
 - Run the script for the first time: `python3 art.py`
 - Accept the permissions request using your Samsung TV remote
 - Run the script again and enjoy your art! Anytime you want the image to change, run the script again.
 
-If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation!
+If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! To do this, you just need to: 
+
+- Create a Bash file like `art.sh` then put something like this in it:
+`cd /Users/your-username/samsung-frame-art && /Library/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/your-username/samsung-frame-art/art.sh`
+- Make sure it's executable: `chmod +x art.sh`
+- Add a cron job with `crontab -e` that runs regularly. I do mine every 12 hours, so it looks like this: `0 */12 * * * /Users/your-username/samsung-frame-art/art.sh`
 
 ### Need images?
 I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
