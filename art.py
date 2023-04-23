@@ -32,10 +32,12 @@ art_mode = tv.art().supported()
 
 if art_mode == True:
 	# Retrieve information about the currently selected art
-	info = tv.art().get_current()
-	logging.info(info)
+	current_art = tv.art().get_current()
 
-	# Get a list of JPEG files in the folder
+	# If you are having trouble setting images, uncommenting this will output the current art
+	#logging.info(current_art)
+
+	# Get a list of JPG/PNG files in the folder
 	files = [f for f in os.listdir(folder_path) if f.endswith('.jpg') or f.endswith('.png')]
 
 	# Remove the filenames of images that have already been uploaded
@@ -62,12 +64,14 @@ if art_mode == True:
 							logging.warning('Image already uploaded.')
 							break
 			if remote_filename is None:
-					logging.warning('Uploading new image')
+					logging.warning('Uploading new image.')
 
 					if file.endswith('.jpg'):
 						remote_filename = tv.art().upload(data, file_type='JPEG', matte="none")
 					elif file.endswith('.png'):
 						remote_filename = tv.art().upload(data, file_type='PNG', matte="none")
+
+					logging.warning('Uploading new image.')
 
 					# Select the uploaded image using the remote file name
 					tv.art().select_image(remote_filename, show=True)
@@ -75,7 +79,7 @@ if art_mode == True:
 					# Add the filename to the list of uploaded filenames
 					uploaded_files.append({'file': file, 'remote_filename': remote_filename})
 			else:
-					logging.warning('Setting existing image')
+					logging.warning('Setting existing image, skipping upload')
 					# Select the existing image using the saved remote file name from the TV
 					tv.art().select_image(remote_filename, show=True)
 
