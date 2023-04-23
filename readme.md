@@ -3,7 +3,9 @@
 
 I love the Samsung Frame TV—which is designed to look like art when it's off—but I got tired of paying a monthly fee for the official art. I also found uploading images to it manually to be tedious, especially when using a very large set of images, like those from Google's Earth View image library. 
 
-This Python script randomly picks an image from folder on your computer, then sends it to your TV and sets it as the active image automatically. You can use this script with a folder of thousands of images to have your TV change art constantly, for free. All you need is your own images!
+This Python script allows you to change your Samsung Frame's art based on a folder of images on your computer. The script picks an image from folder on your computer, then sends it to your TV and sets it as the active image automatically—it also does its best to try not repeatedly upload the same photo to your TV. 
+
+You can use this script with a folder of thousands of images to have your Samsung Frame TV change art constantly, for free. All you need is your own images!
 
 ## Using the script
 
@@ -23,3 +25,4 @@ I wanted to do this with the [Google Earth View images](https://earth.google.com
 - Only works with JPG and PNG files
 - Needs to be manually run every time you want to upload/change photos. This works great if you can set a cron job to run at the frequency you want the photos changed. 
 - Don't blame me if your TV breaks, this was just a project for myself
+- I have no idea how many images is the maximum on these TVs. I've used this about 1000 times so far and my 2022 Samsung Frame still seems to accept images.
