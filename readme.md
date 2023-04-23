@@ -14,7 +14,9 @@ You can use this script with a folder of thousands of images to have your Samsun
 - Create a folder of images you want to upload at `/images`
 - Run the script for the first time: `python3 art.py`
 - Accept the permissions request using your Samsung TV remote
-- Run the script again and enjoy your art!
+- Run the script again and enjoy your art! Anytime you want the image to change, run the script again.
+
+If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation!
 
 ### Need images?
 I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
