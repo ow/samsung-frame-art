@@ -42,10 +42,12 @@ To run bulk upload mode: `python3 art.py --upload-all`
 I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
 
 ### Troubleshooting
-If the script locks up it's likely you haven't accepted the permissions request on your TV. If you did accept the permissions, you can check if the script can reach your TV by running:
+1. Check if you added the IP address of your TV in `art.py`! 
+2. If it doesn't work, check your TV responds by going to your TV's URL in the browser: `http://YOUR_IP_HERE:8001/api/v2/` — if you get a response that's a big messy blob of data, your TV is definitely reachable.
+3. If the script locks up it's likely you haven't accepted the permissions request on your TV. If you did accept the permissions, you can check if the script can reach your TV by running:
 `python3 art.py --debug` 
 
-If you don't get an error, something else is going on and you should file an issue!
+If you don't get an error running in debug mode, something else is going on and you should file an issue!
 
 ### Caveats
 
