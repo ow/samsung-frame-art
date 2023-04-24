@@ -40,6 +40,12 @@ To run bulk upload mode: `python3 art.py --upload-all`
 ### Need images?
 I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
 
+### Troubleshooting
+If the script locks up it's likely you haven't accepted the permissions request on your TV. If you did accept the permissions, you can check if the script can reach your TV by running:
+`python3 art.py --debug` 
+
+If you don't get an error, something else is going on and you should file an issue!
+
 ### Caveats
 
 - Because Samsung TVs don't let you check if a file was already uploaded, every time the file is uploaded to the TV the script saves the filename and remote file ID in `uploaded_files.json` — if you run the script again and the file is already on the TV, the script will ensure it's not duplicated repeatedly on the TV.
