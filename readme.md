@@ -7,6 +7,8 @@ This Python script allows you to change your Samsung Frame's art based on a fold
 
 You can use this script with a folder of thousands of images to have your Samsung Frame TV change art constantly, for free. All you need is your own images!
 
+You can choose between a 'randomizer' mode that changes the image each time the script is run, or a bulk upload mode that puts all of your images on the TV at once and use the internal slideshow mode to have them shuffle.
+
 ## Using the script
 
 - Install the required [Python library](https://github.com/xchwarze/samsung-tv-ws-api) that accesses the Samsung TV API by running: `pip3 install "git+https://github.com/xchwarze/samsung-tv-ws-api.git#egg=samsungtvws[async,encrypted]"`
@@ -14,7 +16,17 @@ You can use this script with a folder of thousands of images to have your Samsun
 - Create a folder of images you want to upload at `./images`
 - Run the script for the first time: `python3 art.py`
 - Accept the permissions request using your Samsung TV remote
-- Run the script again and enjoy your art! Anytime you want the image to change, run the script again.
+- Choose the mode you want to use below
+
+### Randomly change art mode
+This is the mode I originally built this for, where a Raspberry Pi or something on your network runs the script and chooses a random image each time it runs. I prefer this mode because it allows me to just keep adding images and eventually they'll show up as art.
+
+- Run the script with a simple `python3 art.py`
+
+### Bulk upload mode
+This mode uploads _all of the photos_ in the `/images` directory to your TV—which is great if you'd rather just use the TV's internal slideshow mode. Once you've uploaded all of your photos, just go to 'my images' on your TV and choose the shuffle icon. Each time you run this script in bulk mode, as long as you have kept the `uploaded_files.json` intact, it'll check for anything new and sling that to your TV.
+
+To run bulk upload mode: `python3 art.py --upload-all`
 
 If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! I do this on a Mac Mini, so these are the steps I used for that: 
 
