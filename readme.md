@@ -27,7 +27,7 @@ This is the mode I originally built this for, where a Raspberry Pi or something 
 *To get images to change on a schedule:* If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! I do this on a Mac Mini, so these are the steps I used for that: 
 
 - Create a Bash file like `art.sh` then put something like this in it:
-`cd /Users/your-username/samsung-frame-art && /Library/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/your-username/samsung-frame-art/art.sh`
+`cd /Users/your-username/samsung-frame-art && /Library/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/your-username/samsung-frame-art/art.py`
 - Make sure it's executable: `chmod +x art.sh`
 - Add a cron job with `crontab -e` that runs regularly. I do mine every 12 hours, so it looks like this: `0 */12 * * * /Users/your-username/samsung-frame-art/art.sh`
 
