@@ -10,6 +10,7 @@ You can use this script with a folder of thousands of images to have your Samsun
 You can choose between a 'randomizer' mode that changes the image each time the script is run, or a bulk upload mode that puts all of your images on the TV at once and use the internal slideshow mode to have them shuffle.
 
 ## Using the script
+*Note: I have tested this with the 2020 and 2021 Samsung Frame TVs, which I own. I am not sure if it works with other TVs yet—let me know if it works on your TV if it isn't listed here.*
 
 - Install the required [Python library](https://github.com/xchwarze/samsung-tv-ws-api) that accesses the Samsung TV API by running: `pip3 install "git+https://github.com/xchwarze/samsung-tv-ws-api.git#egg=samsungtvws[async,encrypted]"`
 - Set a static IP for your TV, then change `tv = SamsungTVWS('192.168.0.9')` in `art.py` to your own IP address
