@@ -83,11 +83,15 @@ if art_mode == True:
 				if remote_filename is None:
 						logging.info('Uploading new image: ' + str(file))
 
-						if file.endswith('.jpg'):
-								remote_filename = tv.art().upload(data, file_type='JPEG', matte="none")
-						elif file.endswith('.png'):
-								remote_filename = tv.art().upload(data, file_type='PNG', matte="none")
-
+						try:
+							if file.endswith('.jpg'):
+									remote_filename = tv.art().upload(data, file_type='JPEG', matte="none")
+							elif file.endswith('.png'):
+									remote_filename = tv.art().upload(data, file_type='PNG', matte="none")
+						except Exception as e:
+							logging.error('There was an error: ' + str(e))
+							sys.exit()
+							
 						# Add the filename to the list of uploaded filenames
 						uploaded_files.append({'file': file, 'remote_filename': remote_filename})
 
