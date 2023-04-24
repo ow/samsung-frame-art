@@ -30,9 +30,10 @@ This is the mode I originally built this for, where a Raspberry Pi or something 
 - Make sure it's executable: `chmod +x art.sh`
 - Add a cron job with `crontab -e` that runs regularly. I do mine every 12 hours, so it looks like this: `0 */12 * * * /Users/your-username/samsung-frame-art/art.sh`
 
-
 ### Bulk upload mode
 This mode uploads _all of the photos_ in the `/images` directory to your TV—which is great if you'd rather just use the TV's internal slideshow mode. Once you've uploaded all of your photos, just go to 'my images' on your TV and choose the shuffle icon. Each time you run this script in bulk mode, as long as you have kept the `uploaded_files.json` intact, it'll check for anything new and sling that to your TV.
+
+*Warning: uploading a lot of images may take a long time.*
 
 To run bulk upload mode: `python3 art.py --upload-all`
 
