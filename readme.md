@@ -23,17 +23,18 @@ This is the mode I originally built this for, where a Raspberry Pi or something 
 
 - Run the script with a simple `python3 art.py`
 
-### Bulk upload mode
-This mode uploads _all of the photos_ in the `/images` directory to your TV—which is great if you'd rather just use the TV's internal slideshow mode. Once you've uploaded all of your photos, just go to 'my images' on your TV and choose the shuffle icon. Each time you run this script in bulk mode, as long as you have kept the `uploaded_files.json` intact, it'll check for anything new and sling that to your TV.
-
-To run bulk upload mode: `python3 art.py --upload-all`
-
-If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! I do this on a Mac Mini, so these are the steps I used for that: 
+*To get images to change on a schedule:* If you have a Raspberry Pi or other computer that is always on, you could set up a cronjob to change it on a regular rotation! I do this on a Mac Mini, so these are the steps I used for that: 
 
 - Create a Bash file like `art.sh` then put something like this in it:
 `cd /Users/your-username/samsung-frame-art && /Library/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/your-username/samsung-frame-art/art.sh`
 - Make sure it's executable: `chmod +x art.sh`
 - Add a cron job with `crontab -e` that runs regularly. I do mine every 12 hours, so it looks like this: `0 */12 * * * /Users/your-username/samsung-frame-art/art.sh`
+
+
+### Bulk upload mode
+This mode uploads _all of the photos_ in the `/images` directory to your TV—which is great if you'd rather just use the TV's internal slideshow mode. Once you've uploaded all of your photos, just go to 'my images' on your TV and choose the shuffle icon. Each time you run this script in bulk mode, as long as you have kept the `uploaded_files.json` intact, it'll check for anything new and sling that to your TV.
+
+To run bulk upload mode: `python3 art.py --upload-all`
 
 ### Need images?
 I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
