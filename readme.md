@@ -39,7 +39,9 @@ This mode uploads _all of the photos_ in the `/images` directory to your TV—wh
 To run bulk upload mode: `python3 art.py --upload-all`
 
 ### Need images?
-I wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute these, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
+
+1. I originally wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute those, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
+2. mmargauxx [made an amazing version of this](https://github.com/mmargauxx/frametv) that allows you directly download images from the Rijsmuseum's API, then run the art changer :) 
 
 ### Troubleshooting
 1. Check if you added the IP address of your TV in `art.py`! 
