@@ -19,7 +19,7 @@ args = parser.parse_args()
 folder_path = './images/'
 
 # Set the path to the file that will store the list of uploaded filenames
-upload_list_path = './uploaded_files.json'
+upload_list_path = './images/.uploaded.json'
 
 # Load the list of uploaded filenames from the file
 if os.path.isfile(upload_list_path):
@@ -32,7 +32,7 @@ else:
 logging.basicConfig(level=logging.INFO)
 
 # Set your TVs local IP address. Highly recommend using a static IP address for your TV.
-tv = SamsungTVWS('192.168.0.9')
+tv = SamsungTVWS(os.environ.get('TV_HOST', '192.168.0.9'))
 
 # Check if TV is reachable in debug mode
 if args.debug:
@@ -91,7 +91,7 @@ if art_mode == True:
 						except Exception as e:
 							logging.error('There was an error: ' + str(e))
 							sys.exit()
-							
+
 						# Add the filename to the list of uploaded filenames
 						uploaded_files.append({'file': file, 'remote_filename': remote_filename})
 
