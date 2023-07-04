@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-while true; do
-  python download.py
-  python art.py
-  /bin/sleep $SLEEP_SECONDS
-done
+cd /app
+/usr/local/bin/python download.py
+/usr/local/bin/python art.py --force-show

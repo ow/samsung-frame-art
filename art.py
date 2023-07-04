@@ -12,6 +12,7 @@ from samsungtvws import SamsungTVWS
 # Add command line argument parsing
 parser = argparse.ArgumentParser(description='Upload images to Samsung TV.')
 parser.add_argument('--upload-all', action='store_true', help='Upload all images at once')
+parser.add_argument('--force-show', action='store_true', help='Force show of the image after select')
 parser.add_argument('--debug', action='store_true', help='Enable debug mode to check if TV is reachable')
 args = parser.parse_args()
 
@@ -97,7 +98,7 @@ if art_mode == True:
 
 						if not args.upload_all:
 							# Select the uploaded image using the remote file name
-							tv.art().select_image(remote_filename, show=False)
+							tv.art().select_image(remote_filename, show=args.force_show)
 
 				else:
 						if not args.upload_all:
