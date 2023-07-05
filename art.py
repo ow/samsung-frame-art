@@ -12,6 +12,7 @@ from samsungtvws import SamsungTVWS
 # Add command line argument parsing
 parser = argparse.ArgumentParser(description='Upload images to Samsung TV.')
 parser.add_argument('--upload-all', action='store_true', help='Upload all images at once')
+parser.add_argument('--force-show', action='store_true', help='Force show of the image after select')
 parser.add_argument('--debug', action='store_true', help='Enable debug mode to check if TV is reachable')
 args = parser.parse_args()
 
@@ -19,7 +20,7 @@ args = parser.parse_args()
 folder_path = './images/'
 
 # Set the path to the file that will store the list of uploaded filenames
-upload_list_path = './uploaded_files.json'
+upload_list_path = './images/.uploaded.json'
 
 # Load the list of uploaded filenames from the file
 if os.path.isfile(upload_list_path):
@@ -32,7 +33,7 @@ else:
 logging.basicConfig(level=logging.INFO)
 
 # Set your TVs local IP address. Highly recommend using a static IP address for your TV.
-tv = SamsungTVWS('192.168.0.9')
+tv = SamsungTVWS(os.environ.get('TV_HOST', '192.168.0.9'))
 
 # Check if TV is reachable in debug mode
 if args.debug:
@@ -91,13 +92,13 @@ if art_mode == True:
 						except Exception as e:
 							logging.error('There was an error: ' + str(e))
 							sys.exit()
-							
+
 						# Add the filename to the list of uploaded filenames
 						uploaded_files.append({'file': file, 'remote_filename': remote_filename})
 
 						if not args.upload_all:
 							# Select the uploaded image using the remote file name
-							tv.art().select_image(remote_filename, show=False)
+							tv.art().select_image(remote_filename, show=args.force_show)
 
 				else:
 						if not args.upload_all:
