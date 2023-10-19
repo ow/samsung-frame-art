@@ -1,0 +1,14 @@
+name: Samsung Frame Art Mode++
+version: 1.0.5
+slug: samsung_frame_art
+description: Hass.io addon for Samsung Frame Art Mode++ capabilities
+arch:
+- aarch64
+- amd64
+- armhf
+- armv7
+- i386
+url: https://github.com/krasnoukhov/samsung-frame-art
+init: false
+map:
+- share:rw
