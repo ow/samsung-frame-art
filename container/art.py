@@ -5,6 +5,8 @@ import random
 import json
 import argparse
 
+samsungip = os.environ.get('SAMSUNGTVIP')
+
 sys.path.append('../')
 
 from samsungtvws import SamsungTVWS
@@ -32,7 +34,7 @@ else:
 logging.basicConfig(level=logging.INFO)
 
 # Set your TVs local IP address. Highly recommend using a static IP address for your TV.
-tv = SamsungTVWS('192.168.0.9')
+tv = SamsungTVWS(samsungip)
 
 # Check if TV is reachable in debug mode
 if args.debug:

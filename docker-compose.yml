@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  samsung-frame-art:
+    image: samsung-frame-art
+    environment:
+      # IP of your TV goes here:
+      - SAMSUNGTVIP=192.168.178.31
+    # Can be used to import external pictures:
+    #volumes:
+    #  - ./images:/app/images
