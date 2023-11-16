@@ -6,6 +6,8 @@ services:
     environment:
       # IP of your TV goes here:
       - SAMSUNGTVIP=192.168.178.31
+      # Your Unsplash API Key goes here:
+      - UNSPLASH_API_KEY=
     # Can be used to import external pictures:
     #volumes:
     #  - ./images:/app/images
