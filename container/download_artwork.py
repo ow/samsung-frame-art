@@ -18,7 +18,7 @@ def download_random_artworks(num_images):
     try:
         for _ in range(num_images):
             # Führe die API-Anfrage durch
-            response = requests.get(UNSPLASH_API_URL, params={'client_id': unsplash_api_key})
+            response = requests.get(UNSPLASH_API_URL, params={'client_id': unsplash_api_key, 'orientation':'landscape'})
             response.raise_for_status()  # Wirf eine Ausnahme bei einem Fehlerstatuscode
 
             # Extrahiere die URL des Fotos aus der Antwort
