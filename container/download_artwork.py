@@ -1,5 +1,6 @@
 import os
 import requests
+import logging
 import argparse
 from datetime import datetime
 
@@ -8,6 +9,9 @@ UNSPLASH_API_URL = 'https://api.unsplash.com/photos/random/'
 
 # Verzeichnis zum Speichern der heruntergeladenen Bilder
 IMAGES_DIRECTORY = 'images'
+
+# Increase debug level
+logging.basicConfig(level=logging.INFO)
 
 def download_random_artworks(num_images):
     unsplash_api_key = os.getenv('UNSPLASH_API_KEY')
@@ -38,10 +42,10 @@ def download_random_artworks(num_images):
             with open(file_name, 'wb') as f:
                 f.write(response.content)
 
-            print(f'Bild {_ + 1} erfolgreich heruntergeladen und als {file_name} gespeichert.')
+            logging.info(f'Bild {_ + 1} erfolgreich heruntergeladen und als {file_name} gespeichert.')
 
     except requests.exceptions.RequestException as e:
-        print(f'Fehler beim Herunterladen der Bilder: {e}')
+        logging.error(f'Fehler beim Herunterladen der Bilder: {e}')
 
 if __name__ == "__main__":
     # Füge einen Befehlszeilenargument-Parser hinzu
