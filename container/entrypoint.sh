@@ -2,6 +2,8 @@
 
 # Funktion, um das Python-Skript auszuführen
 run_script() {
+    python3 download_artwork.py
+    sleep 30
     python3 art.py
 }
 

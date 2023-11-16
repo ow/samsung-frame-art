@@ -1,42 +1,55 @@
-import requests
 import os
-
-# Setze deinen Unsplash API-Schlüssel hier
-UNSPLASH_API_KEY = ''
+import requests
+import argparse
+from datetime import datetime
 
 # Unsplash API-Endpunkt für zufällige Fotos
-UNSPLASH_API_URL = 'https://api.unsplash.com/photos/random'
+UNSPLASH_API_URL = 'https://api.unsplash.com/photos/random/'
 
 # Verzeichnis zum Speichern der heruntergeladenen Bilder
 IMAGES_DIRECTORY = 'images'
 
-def download_random_artwork():
+def download_random_artworks(num_images):
+    unsplash_api_key = os.getenv('UNSPLASH_API_KEY')
+    if not unsplash_api_key:
+        print('Error: UNSPLASH_API_KEY is not set.')
+        return
+
     try:
-        # Führe die API-Anfrage durch
-        response = requests.get(UNSPLASH_API_URL, params={'client_id': UNSPLASH_API_KEY})
-        response.raise_for_status()  # Wirf eine Ausnahme bei einem Fehlerstatuscode
+        for _ in range(num_images):
+            # Führe die API-Anfrage durch
+            response = requests.get(UNSPLASH_API_URL, params={'client_id': unsplash_api_key})
+            response.raise_for_status()  # Wirf eine Ausnahme bei einem Fehlerstatuscode
 
-        # Extrahiere die URL des Fotos aus der Antwort
-        photo_url = response.json()['urls']['regular']
+            # Extrahiere die URL des Fotos aus der Antwort
+            photo_url = response.json()['urls']['regular']
 
-        # Lade das Foto herunter und speichere es lokal
-        response = requests.get(photo_url)
-        response.raise_for_status()
+            # Stelle sicher, dass das Verzeichnis existiert
+            os.makedirs(IMAGES_DIRECTORY, exist_ok=True)
 
-        # Stelle sicher, dass das Verzeichnis existiert
-        os.makedirs(IMAGES_DIRECTORY, exist_ok=True)
+            # Generiere einen eindeutigen Dateinamen basierend auf dem aktuellen Zeitstempel
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            file_name = os.path.join(IMAGES_DIRECTORY, f'downloaded_artwork_{timestamp}.jpg')
 
-        # Extrahiere den Dateinamen aus der Bild-URL
-        file_name = os.path.join(IMAGES_DIRECTORY, 'downloaded_artwork.jpg')
+            # Lade das Foto herunter und speichere es lokal
+            response = requests.get(photo_url)
+            response.raise_for_status()
 
-        # Schreibe die Bild-Bytes direkt in die Datei
-        with open(file_name, 'wb') as f:
-            f.write(response.content)
+            with open(file_name, 'wb') as f:
+                f.write(response.content)
 
-        print(f'Foto erfolgreich heruntergeladen und als {file_name} gespeichert.')
+            print(f'Bild {_ + 1} erfolgreich heruntergeladen und als {file_name} gespeichert.')
 
     except requests.exceptions.RequestException as e:
-        print(f'Fehler beim Herunterladen des Fotos: {e}')
+        print(f'Fehler beim Herunterladen der Bilder: {e}')
 
 if __name__ == "__main__":
-    download_random_artwork()
+    # Füge einen Befehlszeilenargument-Parser hinzu
+    parser = argparse.ArgumentParser(description='Unsplash Image Downloader')
+    parser.add_argument('--num_images', type=int, default=1, help='Anzahl der herunterzuladenden Bilder')
+
+    # Parse die Befehlszeilenargumente
+    args = parser.parse_args()
+
+    # Rufe die Funktion mit der angegebenen Anzahl der Bilder auf
+    download_random_artworks(args.num_images)
