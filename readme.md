@@ -6,5 +6,5 @@ Inside the repo you can find a example docker-compose.yml file.
 
 Todo:
 - [x] Create basic docker container
-- [ ] add automatic download source of pictures
+- [x] add automatic download source of pictures
 - [ ] upload image to ghcr
