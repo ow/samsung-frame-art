@@ -1,5 +1,4 @@
 import sys
-import io
 import logging
 import os
 import random
@@ -9,14 +8,7 @@ import argparse
 sys.path.append('../')
 
 from samsungtvws import SamsungTVWS
-
-# Optional: Pillow powers the fit-to-screen resize/crop. Without it we fall
-# back to uploading images untouched, preserving the original behaviour.
-try:
-    from PIL import Image, ImageOps
-    HAS_PIL = True
-except ImportError:
-    HAS_PIL = False
+from fit import HAS_PIL, fit_to_tv
 
 # Add command line argument parsing
 parser = argparse.ArgumentParser(description='Upload images to Samsung TV.')
@@ -30,33 +22,6 @@ parser.add_argument('--res', default='3840x2160',
                     help='Target resolution as WIDTHxHEIGHT. (default: 3840x2160)')
 args = parser.parse_args()
 
-
-def _fit_to_tv(data, target, fit):
-    """Return JPEG bytes resized/cropped to the TV screen, or None to skip.
-
-    Returns None (meaning 'upload untouched') if Pillow is unavailable or the
-    image cannot be decoded, so a single bad image never breaks the run.
-    """
-    if not HAS_PIL:
-        return None
-    try:
-        img = Image.open(io.BytesIO(data))
-        img = ImageOps.exif_transpose(img)
-        img = img.convert('RGB')
-        width, height = (int(p) for p in target.lower().split('x'))
-        if fit == 'contain':
-            img.thumbnail((width, height), Image.LANCZOS)
-            canvas = Image.new('RGB', (width, height), (255, 255, 255))
-            canvas.paste(img, ((width - img.width) // 2, (height - img.height) // 2))
-            img = canvas
-        else:
-            img = ImageOps.fit(img, (width, height), Image.LANCZOS, centering=(0.5, 0.5))
-        buf = io.BytesIO()
-        img.save(buf, 'JPEG', quality=95)
-        return buf.getvalue()
-    except Exception as e:
-        logging.warning('Resize failed (%s); uploading image untouched.', e)
-        return None
 
 # Set the path to the folder containing the images
 folder_path = './images/'
@@ -121,7 +86,7 @@ if art_mode == True:
 				# art and unexpected crops.
 				file_type = 'JPEG' if file.lower().endswith('.jpg') else 'PNG'
 				if not args.no_resize:
-						fitted = _fit_to_tv(data, args.res, args.fit)
+						fitted = fit_to_tv(data, args.res, args.fit)
 						if fitted is not None:
 								data = fitted
 								file_type = 'JPEG'

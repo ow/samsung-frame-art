@@ -48,6 +48,15 @@ By default images are fitted to `3840x2160` before uploading, so landscape, port
 - `--res WIDTHxHEIGHT` changes the target resolution, e.g. `--res 1920x1080`
 - `--no-resize` uploads images untouched, matching the original behaviour
 
+### Tests
+
+The resize/crop logic lives in `fit.py` (independent of the TV library) and is covered by unit tests that need only Pillow:
+
+```
+pip3 install Pillow
+python3 -m unittest test_fit
+```
+
 ### Need images?
 
 1. I originally wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute those, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
