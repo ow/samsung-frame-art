@@ -13,6 +13,7 @@ You can choose between a 'randomizer' mode that changes the image each time the 
 *Note: I have tested this with the 2020 and 2021 Samsung Frame TVs, which I own. I am not sure if it works with other TVs yet—let me know if it works on your TV if it isn't listed here. There is a rumor that the 2022 Frame TVs no longer allow art mode to work with the API—if you try this with a 2022 Frame TV and it works (or doesn't) let me know; I probably can't help but it would be good for others to know.*
 
 - Install the required [Python library](https://github.com/xchwarze/samsung-tv-ws-api) that accesses the Samsung TV API by running: `pip3 install "git+https://github.com/xchwarze/samsung-tv-ws-api.git#egg=samsungtvws[async,encrypted]"`
+- For the resize/crop feature, also install [Pillow](https://python-pillow.org): `pip3 install Pillow`
 - Set a static IP for your TV, then change `tv = SamsungTVWS('192.168.0.9')` in `art.py` to your own IP address
 - Create a folder of images you want to upload at `./images`
 - Run the script for the first time: `python3 art.py`
@@ -38,6 +39,24 @@ This mode uploads _all of the photos_ in the `/images` directory to your TV—wh
 
 To run bulk upload mode: `python3 art.py --upload-all`
 
+### Resize / crop to fit your screen
+
+By default images are fitted to `3840x2160` before uploading, so landscape, portrait, and odd AI-generated aspect ratios fill the Frame without looking soft or getting unexpectedly cropped. This requires Pillow (see install steps).
+
+- `--fit cover` (default) crops the image to fill the screen
+- `--fit contain` shows the whole image, centred on white
+- `--res WIDTHxHEIGHT` changes the target resolution, e.g. `--res 1920x1080`
+- `--no-resize` uploads images untouched, matching the original behaviour
+
+### Tests
+
+The resize/crop logic lives in `fit.py` (independent of the TV library) and is covered by unit tests that need only Pillow:
+
+```
+pip3 install Pillow
+python3 -m unittest test_fit
+```
+
 ### Need images?
 
 1. I originally wanted to do this with the [Google Earth View images](https://earth.google.com/web/data=CiQSIhIgYWJiZTA3ZGNkODM3MTFlNmIzMmFhNWViMDBhYjQ5ZmM), which are lovely and of which there are many thousands of images. I can't distribute those, but you can learn how to [download these here](https://www.gtricks.com/earth/download-all-google-earth-view-wallpapers/)—they work really well with this library.
@@ -61,5 +80,4 @@ If you don't get an error running in debug mode, something else is going on and 
 
 ### To-Do
 
-- This project does not do anything with the aspect ratio of images. It only really handles landscape and does not fit them to the display; I'd like to figure out how to auto-resize or crop these before uploading.
 - It would be cool to build a website UI version of this to manage it locally

@@ -8,12 +8,20 @@ import argparse
 sys.path.append('../')
 
 from samsungtvws import SamsungTVWS
+from fit import HAS_PIL, fit_to_tv
 
 # Add command line argument parsing
 parser = argparse.ArgumentParser(description='Upload images to Samsung TV.')
 parser.add_argument('--upload-all', action='store_true', help='Upload all images at once')
 parser.add_argument('--debug', action='store_true', help='Enable debug mode to check if TV is reachable')
+parser.add_argument('--no-resize', action='store_true', help='Upload images as-is, without fitting them to the screen')
+parser.add_argument('--fit', choices=('cover', 'contain'), default='cover',
+                    help='How to fit images to the screen. cover crops to fill; contain shows the '
+                         'whole image centred on white. (default: cover)')
+parser.add_argument('--res', default='3840x2160',
+                    help='Target resolution as WIDTHxHEIGHT. (default: 3840x2160)')
 args = parser.parse_args()
+
 
 # Set the path to the folder containing the images
 folder_path = './images/'
@@ -73,6 +81,16 @@ if art_mode == True:
 				with open(file, 'rb') as f:
 						data = f.read()
 
+				# Optionally fit the image to the screen before uploading. The TV
+				# re-encodes to JPEG anyway, so resizing/cropping here avoids soft
+				# art and unexpected crops.
+				file_type = 'JPEG' if file.lower().endswith('.jpg') else 'PNG'
+				if not args.no_resize:
+						fitted = fit_to_tv(data, args.res, args.fit)
+						if fitted is not None:
+								data = fitted
+								file_type = 'JPEG'
+
 				# Upload the file to the TV and select it as the current art, or select it using the remote filename if it has already been uploaded
 				remote_filename = None
 				for uploaded_file in uploaded_files:
@@ -84,10 +102,7 @@ if art_mode == True:
 						logging.info('Uploading new image: ' + str(file))
 
 						try:
-							if file.endswith('.jpg'):
-									remote_filename = tv.art().upload(data, file_type='JPEG', matte="none")
-							elif file.endswith('.png'):
-									remote_filename = tv.art().upload(data, file_type='PNG', matte="none")
+							remote_filename = tv.art().upload(data, file_type=file_type, matte="none")
 						except Exception as e:
 							logging.error('There was an error: ' + str(e))
 							sys.exit()
