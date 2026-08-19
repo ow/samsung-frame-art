@@ -1,4 +1,5 @@
 import sys
+import io
 import logging
 import os
 import random
@@ -9,11 +10,53 @@ sys.path.append('../')
 
 from samsungtvws import SamsungTVWS
 
+# Optional: Pillow powers the fit-to-screen resize/crop. Without it we fall
+# back to uploading images untouched, preserving the original behaviour.
+try:
+    from PIL import Image, ImageOps
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
+
 # Add command line argument parsing
 parser = argparse.ArgumentParser(description='Upload images to Samsung TV.')
 parser.add_argument('--upload-all', action='store_true', help='Upload all images at once')
 parser.add_argument('--debug', action='store_true', help='Enable debug mode to check if TV is reachable')
+parser.add_argument('--no-resize', action='store_true', help='Upload images as-is, without fitting them to the screen')
+parser.add_argument('--fit', choices=('cover', 'contain'), default='cover',
+                    help='How to fit images to the screen. cover crops to fill; contain shows the '
+                         'whole image centred on white. (default: cover)')
+parser.add_argument('--res', default='3840x2160',
+                    help='Target resolution as WIDTHxHEIGHT. (default: 3840x2160)')
 args = parser.parse_args()
+
+
+def _fit_to_tv(data, target, fit):
+    """Return JPEG bytes resized/cropped to the TV screen, or None to skip.
+
+    Returns None (meaning 'upload untouched') if Pillow is unavailable or the
+    image cannot be decoded, so a single bad image never breaks the run.
+    """
+    if not HAS_PIL:
+        return None
+    try:
+        img = Image.open(io.BytesIO(data))
+        img = ImageOps.exif_transpose(img)
+        img = img.convert('RGB')
+        width, height = (int(p) for p in target.lower().split('x'))
+        if fit == 'contain':
+            img.thumbnail((width, height), Image.LANCZOS)
+            canvas = Image.new('RGB', (width, height), (255, 255, 255))
+            canvas.paste(img, ((width - img.width) // 2, (height - img.height) // 2))
+            img = canvas
+        else:
+            img = ImageOps.fit(img, (width, height), Image.LANCZOS, centering=(0.5, 0.5))
+        buf = io.BytesIO()
+        img.save(buf, 'JPEG', quality=95)
+        return buf.getvalue()
+    except Exception as e:
+        logging.warning('Resize failed (%s); uploading image untouched.', e)
+        return None
 
 # Set the path to the folder containing the images
 folder_path = './images/'
@@ -73,6 +116,16 @@ if art_mode == True:
 				with open(file, 'rb') as f:
 						data = f.read()
 
+				# Optionally fit the image to the screen before uploading. The TV
+				# re-encodes to JPEG anyway, so resizing/cropping here avoids soft
+				# art and unexpected crops.
+				file_type = 'JPEG' if file.lower().endswith('.jpg') else 'PNG'
+				if not args.no_resize:
+						fitted = _fit_to_tv(data, args.res, args.fit)
+						if fitted is not None:
+								data = fitted
+								file_type = 'JPEG'
+
 				# Upload the file to the TV and select it as the current art, or select it using the remote filename if it has already been uploaded
 				remote_filename = None
 				for uploaded_file in uploaded_files:
@@ -84,10 +137,7 @@ if art_mode == True:
 						logging.info('Uploading new image: ' + str(file))
 
 						try:
-							if file.endswith('.jpg'):
-									remote_filename = tv.art().upload(data, file_type='JPEG', matte="none")
-							elif file.endswith('.png'):
-									remote_filename = tv.art().upload(data, file_type='PNG', matte="none")
+							remote_filename = tv.art().upload(data, file_type=file_type, matte="none")
 						except Exception as e:
 							logging.error('There was an error: ' + str(e))
 							sys.exit()
